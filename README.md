@@ -1,1 +1,1 @@
-# Document-Level-Event-Extraction-from-Italian-Crime-News-Using-Minimal-Data
+# Document Level Event Extraction from Italian Crime News Using Minimal Data
