@@ -28,16 +28,16 @@ items_set_filename = "data/validation_set.json"
 with open(examples_set_filename, "r") as f:
     examples = json.load(f)
 
+# Load news items to submit to the model
+with open(items_set_filename, "r") as f:
+    data = json.load(f)
+
 # Insert example combinations. For zero shot, insert ()
 examples_combinations = [(0, 4, 5, 3)]
 
 for combination in examples_combinations:
     print("combination: ", combination)
     example_indices = list(combination)
-
-    # Load news items to submit to the model (validation set and test set)
-    with open(items_set_filename, "r") as f:
-        data = json.load(f)
 
     # index of the starting item
     start_index = 0
