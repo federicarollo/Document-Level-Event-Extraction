@@ -47,7 +47,7 @@ examples_combinations = [(0, 4, 5, 3)]
 
 for combination in examples_combinations:
     print("combination: ", combination)
-    example_indices = list(combination)
+    examples_indices = list(combination)
 
     # index of the starting item
     start_index = 0
@@ -63,7 +63,7 @@ for combination in examples_combinations:
             news_to_insert = el
         else:
             # If not zero shot, insert the text of the first example
-            news_to_insert = examples[example_indices[0]]
+            news_to_insert = examples[examples_indices[0]]
 
         first_text = f"""
 Ecco il testo di una notizia di furto:
@@ -92,7 +92,7 @@ Devi restituire esclusivamente un JSON strutturato con i seguenti campi:
                     ]
 
         if combination != ():
-            for example_index in example_indices[1:]:
+            for example_index in examples_indices[1:]:
 
                 messages.append(UserMessage(content=f"""
 Bene! Ora fai lo stesso per il testo la seguente notizia:
