@@ -10,15 +10,25 @@ import json
 import os
 
 # Set GPUs
-os.environ['CUDA_VISIBLE_DEVICES'] = "7"
+os.environ['CUDA_VISIBLE_DEVICES'] = "0, 1"
 
 # Load Model
-model_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+model_name = "mistralai/Mistral-7B-Instruct-v0.1"
+# model_name = "mistralai/Mistral-7B-Instruct-v0.2"
+# model_name = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+
+# Load tokenizer
 tokenizer = MistralTokenizer.v1()
 
-# quantization configuration
-quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
-model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
+quantization = True
+
+if quantization:
+    # quantization configuration
+    quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
+    model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config, device_map="auto")
+else:
+    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+    model.to("cuda")
 
 # Datasets paths
 examples_set_filename = "data/example_set.json"
@@ -91,10 +101,10 @@ Bene! Ora fai lo stesso per il testo la seguente notizia:
 
                 messages.append(AssistantMessage(content=json.dumps(examples[example_index]['annotation'])))
 
-            messages.append([UserMessage(content=f"""
+            messages.append(UserMessage(content=f"""
 Bene! Ora fai lo stesso per il testo la seguente notizia:
     {el['text']}
-    """)])
+    """))
 
         completion_request = ChatCompletionRequest(messages=messages)
 
